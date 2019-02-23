@@ -158,14 +158,14 @@ exports.testCmd = (rl, id) => {
       try {
         const quiz = model.getByIndex(id);
 
-        rl.question(colorize(`${quiz.question}: `, 'red'), myanswer =>{
+        rl.question(colorize(`${quiz.question} ? `, 'red'), myanswer =>{
 
 
-          if(myanswer.trim()===quiz.answer){
-            log('correcto','bgGreen');
+          if(myanswer.trim().toLowerCase()===quiz.answer.toLowerCase()){
+            biglog('Correcto','bgGreen');
             rl.prompt();
           } else {
-            log('incorrecto','bgRed');
+            biglog('Incorrecto','bgRed');
             rl.prompt();
           }
         } );
