@@ -15,6 +15,7 @@ const rl = readline.createInterface({
     prompt: colorize("quiz > ", 'blue'),
     completer: (line) => {
         const completions = 'h help add delete edit list test p play credits q quit'.split(' ');
+        //he creado un array lleno de ['h','help',...]
         const hits = completions.filter((c) => c.startsWith(line));
         // show all completions if none found
         return [hits.length ? hits : completions, line];
@@ -88,5 +89,3 @@ rl
     log('Adios!');
     process.exit(0);
 });
-
-
