@@ -1,5 +1,6 @@
 const readline = require('readline');
-
+const figlet = require('figlet');
+const chalk = require('chalk');
 const {log, biglog, errorlog, colorize} = require("./out");
 
 const cmds = require("./cmds");
@@ -7,7 +8,6 @@ const cmds = require("./cmds");
 
 // Mensaje inicial
 biglog('CORE Quiz', 'green');
-
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -17,7 +17,7 @@ const rl = readline.createInterface({
         const completions = 'h help add delete edit list test p play credits q quit'.split(' ');
         //he creado un array lleno de ['h','help',...]
         const hits = completions.filter((c) => c.startsWith(line));
-        // show all completions if none found
+        // shows an array with all completions if none found
         return [hits.length ? hits : completions, line];
     }
 });
@@ -28,7 +28,7 @@ rl
 .on('line', (line) => {
 
     let args = line.split(" ");
-    let cmd = args[0].toLowerCase().trim();
+    let cmd = args[0].toLowerCase().trim(); //da igual lo que escribas solo coge la primera palabra
 
     switch (cmd) {
         case '':
