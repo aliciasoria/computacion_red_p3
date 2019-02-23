@@ -161,7 +161,7 @@ exports.testCmd = (rl, id) => {
         rl.question(colorize(`${quiz.question} ? `, 'red'), myanswer =>{
 
 
-          if(myanswer.trim().toLowerCase()===quiz.answer.toLowerCase()){
+          if(myanswer.trim().toLowerCase()===quiz.answer.trim().toLowerCase()){
             biglog('Correcto','bgGreen');
             rl.prompt();
           } else {
@@ -182,8 +182,43 @@ exports.testCmd = (rl, id) => {
  * @param rl Objeto readline usado para implementar el CLI.
  */
 exports.playCmd = rl => {
-    log('Jugar.', 'red');
-    rl.prompt();
+  let score=0;
+  let idsNotYetResolved=[];
+  log(`${model.count()}`)
+  for(let i=0; i<model.count() ; i++){
+    idsNotYetResolved[i]=i;
+    log(`indice ${i}`);
+  }
+
+const playBien=()=>{
+
+if (idsNotYetResolved.length===0){
+  log(`Has llegado al final, tienes: ${score} puntos, enhorabuena`,'magenta');
+  rl.prompt();
+
+}else{
+ let posi=Math.round( Math.random()*(idsNotYetResolved.length-1) );
+ log(`${posi} posicion`);
+  let idalazar = idsNotYetResolved[ posi ];
+  log(`${idalazar} idalazar`);
+  idsNotYetResolved.splice(posi,1);
+  log(`${idsNotYetResolved.length} longitud del idsNotYetResolved`)
+
+  const quiz = model.getByIndex(idalazar);
+  rl.question(colorize(`${quiz.question} ? `, 'red'), myanswer =>{
+    if(myanswer.trim().toLowerCase()===quiz.answer.trim().toLowerCase()){
+      score+=1;
+      log(`Correcto, llevas ${score} puntos `,'bgGreen');
+      playBien();
+    } else {
+      log('Incorrecto, a tu casa','bgRed');
+      rl.prompt();
+    }
+  } );
+  }
+}
+playBien();
+
 };
 
 
