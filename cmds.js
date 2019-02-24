@@ -184,34 +184,39 @@ exports.testCmd = (rl, id) => {
 exports.playCmd = rl => {
   let score=0;
   let idsNotYetResolved=[];
-  log(`${model.count()}`)
+  //log(`${model.count()}`)
   for(let i=0; i<model.count() ; i++){
     idsNotYetResolved[i]=i;
-    log(`indice ${i}`);
+    //log(`indice ${i}`);
   }
 
 const playBien=()=>{
 
 if (idsNotYetResolved.length===0){
-  log(`Has llegado al final, tienes: ${score} puntos, enhorabuena`,'magenta');
+  log(`No hay nada más que preguntar.\n`)
+  log(`Fin del juego. Aciertos: ${score} `)
+  biglog(`${score}`);
   rl.prompt();
 
 }else{
  let posi=Math.round( Math.random()*(idsNotYetResolved.length-1) );
- log(`${posi} posicion`);
+ //log(`${posi} posicion`);
   let idalazar = idsNotYetResolved[ posi ];
-  log(`${idalazar} idalazar`);
+  //log(`${idalazar} idalazar`);
   idsNotYetResolved.splice(posi,1);
-  log(`${idsNotYetResolved.length} longitud del idsNotYetResolved`)
+  //log(`${idsNotYetResolved.length} longitud del idsNotYetResolved`)
 
   const quiz = model.getByIndex(idalazar);
   rl.question(colorize(`${quiz.question} ? `, 'red'), myanswer =>{
     if(myanswer.trim().toLowerCase()===quiz.answer.trim().toLowerCase()){
       score+=1;
-      log(`Correcto, llevas ${score} puntos `,'bgGreen');
+      log(`CORRECTO - Lleva ${score} aciertos. `,'bgGreen');
+
       playBien();
     } else {
-      log('Incorrecto, a tu casa','bgRed');
+      log(`INCORRECTO. \n`)
+      log(`Fin del juego. Aciertos: ${score}, a tu casa`,'bgRed');
+      biglog(`${score}`);
       rl.prompt();
     }
   } );
